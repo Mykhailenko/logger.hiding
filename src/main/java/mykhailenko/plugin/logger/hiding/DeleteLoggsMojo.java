@@ -32,7 +32,7 @@ import org.apache.maven.plugins.annotations.Parameter;
  * Goal which touches a timestamp file.
  * 
  */
-@Mojo(name = "touch", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
+@Mojo(name = "loggerhiding", defaultPhase = LifecyclePhase.PROCESS_CLASSES)
 public class DeleteLoggsMojo extends AbstractMojo {
 	private static final String sufix = ".class";
 
@@ -41,13 +41,12 @@ public class DeleteLoggsMojo extends AbstractMojo {
 
 	}
 
-	@Parameter(defaultValue = "${project.build.directory}", property = "outputDir", required = true)
+	@Parameter(defaultValue = "${project.build.directory}", required = true)
 	private File root;
 
-	@Parameter(required = true, defaultValue = "all")
+	@Parameter(defaultValue = "all", required = true)
 	private String level;
 
-	@Override
 	public void execute() throws MojoExecutionException {
 		getLog().info("Start deleting logging below level : " + level);
 		Collection<File> files = getFiles();
@@ -94,24 +93,20 @@ public class DeleteLoggsMojo extends AbstractMojo {
 
 	IOFileFilter dirFilter = new IOFileFilter() {
 
-		@Override
 		public boolean accept(File arg0, String arg1) {
 			return true;
 		}
 
-		@Override
 		public boolean accept(File arg0) {
 			return true;
 		}
 	};
 	IOFileFilter fileFilter = new IOFileFilter() {
 
-		@Override
 		public boolean accept(File file, String arg1) {
 			return file.getName().endsWith(sufix);
 		}
 
-		@Override
 		public boolean accept(File file) {
 			return file.getName().endsWith(sufix);
 		}
